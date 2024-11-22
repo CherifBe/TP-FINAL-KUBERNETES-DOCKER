@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend:latest
+    ports:
+      - "8777:3403"
+    environment:
+      - BACKEND_URL=http://backend:3402
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: backend:latest
+    expose:
+      - "3402"
+    volumes:
+      - ./app-data:/app/data
+
+volumes:
+  app-data:
